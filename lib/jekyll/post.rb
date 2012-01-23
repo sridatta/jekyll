@@ -91,7 +91,7 @@ module Jekyll
     #
     # Returns <String>
     def dir
-      File.dirname(url)
+      File.dirname(generated_path)
     end
 
     # The full path and filename of the post.
@@ -120,10 +120,10 @@ module Jekyll
     # e.g. /2008/11/05/my-awesome-post.html
     #
     # Returns <String>
-    def url
-      return @url if @url
+    def generated_path
+      return permalink if permalink
 
-      url = if permalink
+      @generated_path = if permalink
         permalink
       else
         {
@@ -141,9 +141,13 @@ module Jekyll
       end
 
       # sanitize url
-      @url = url.split('/').reject{ |part| part =~ /^\.+$/ }.join('/')
-      @url += "/" if url =~ /\/$/
-      @url
+      @generated_path = url.split('/').reject{ |part| part =~ /^\.+$/ }.join('/')
+      @generated_path += "/" if url =~ /\/$/
+      @generated_path
+    end
+
+    def url
+      site.config['multiviews'] ? generated_path.sub(/\.html$/, '') : generated_path
     end
 
     # The UID for this post (useful in feeds)
@@ -197,7 +201,7 @@ module Jekyll
     # Returns destination file path.
     def destination(dest)
       # The url needs to be unescaped in order to preserve the correct filename
-      path = File.join(dest, CGI.unescape(self.url))
+      path = File.join(dest, CGI.unescape(self.generated_path))
       path = File.join(path, "index.html") if template[/\.html$/].nil?
       path
     end

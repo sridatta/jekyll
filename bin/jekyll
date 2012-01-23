@@ -135,6 +135,10 @@ opts = OptionParser.new do |opts|
     puts "Jekyll " + Jekyll::VERSION
     exit 0
   end
+
+  opts.on("--multiviews", "Don't use .html in links since Apache has 'Options +MultiViews'") do |style|
+    options['multiviews'] = true
+  end
 end
 
 # Read command line options into `options` hash
