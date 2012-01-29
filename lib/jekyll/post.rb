@@ -141,9 +141,9 @@ module Jekyll
       end
 
       # sanitize url
-      @generated_path = url.split('/').reject{ |part| part =~ /^\.+$/ }.join('/')
-      @generated_path += "/" if url =~ /\/$/
-      @generated_path
+      #@generated_path = url.split('/').reject{ |part| part =~ /^\.+$/ }.join('/')
+      #@generated_path += "/" if url =~ /\/$/
+      #@generated_path
     end
 
     def url
